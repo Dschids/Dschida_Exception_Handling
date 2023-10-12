@@ -55,6 +55,7 @@ info then uses Residential's displayIt function to output the data
 */
 fun residential() {
     // getting customer info
+    // this loop will run until there is no error and the break ends the loop
     while (true) {
         try {
             println("Enter customer name:")
@@ -94,6 +95,7 @@ fun residential() {
 info then uses Commercial's displayIt function to output the data
 */
 fun business() {
+    // this loop will run until there is no error and the break ends the loop
     while(true) {
         try {
             var totalSqFt = 0.00
