@@ -28,90 +28,106 @@ fun menu(): Int{
     println("1) Residential Customer")
     println("2) Business Customer")
     println("3) Done")
-    var selection = readln()!!.toInt()
-    while (selection !in 1..3){
-        println("That is not a valid selection!")
-        println("Please enter a number between 1 and 3!")
-        println("Select Customer Type: ")
-        println("1) Residential Customer")
-        println("2) Business Customer")
-        println("3) Done")
-        selection = readln()!!.toInt()
+    // this loop will run until there is no error and the return statement ends the loop
+    while (true){
+        try {
+            var selection = readln()!!.toInt()
+            while (selection !in 1..3) {
+                println("That is not a valid selection!")
+                println("Please enter a number between 1 and 3!")
+                println("Select Customer Type: ")
+                println("1) Residential Customer")
+                println("2) Business Customer")
+                println("3) Done")
+                selection = readln()!!.toInt()
+            }
+            return selection
+        }catch (e: NumberFormatException){
+            println("Error: Entry must be a number!")
+        }catch (e: Exception){
+            println("Error: Unknown Error occurred")
+        }
     }
-    return selection
+
 }
 /* residential gets info from user about a residential customer, creates a variable of class Residential with inputted
 info then uses Residential's displayIt function to output the data
 */
 fun residential() {
     // getting customer info
-    try {
-        println("Enter customer name:")
-        var name = readln()!!.toString()
-        println("Enter customer phone number:")
-        var phone = readln()!!.toString()
-        println("Enter customer address:")
-        var address = readln()!!.toString()
-        println("What is the total square footage of the property?")
-        var sqf = readln()!!.toDouble()
-        println("Is the customer a Senior? y/n")
-        var senior = readln()!!.toString().toLowerCase()
-        // make sure user enters 'y' or 'n'
-        while (senior != "y" && senior != "n") {
-            println("Please enter 'y' for yes or 'n' for no.")
+    while (true) {
+        try {
+            println("Enter customer name:")
+            var name = readln()!!.toString()
+            println("Enter customer phone number:")
+            var phone = readln()!!.toString()
+            println("Enter customer address:")
+            var address = readln()!!.toString()
+            println("What is the total square footage of the property?")
+            var sqf = readln()!!.toDouble()
             println("Is the customer a Senior? y/n")
-            senior = readln()!!.toString().toLowerCase()
-            // setting is senior Boolean based on inputted response
-            var isSenior = false
-            if (senior == "y") {
-                isSenior = true
+            var senior = readln()!!.toString().toLowerCase()
+            // make sure user enters 'y' or 'n'
+            while (senior != "y" && senior != "n") {
+                println("Please enter 'y' for yes or 'n' for no.")
+                println("Is the customer a Senior? y/n")
+                senior = readln()!!.toString().toLowerCase()
+                // setting is senior Boolean based on inputted response
+                var isSenior = false
+                if (senior == "y") {
+                    isSenior = true
+                }
+                // create class instance using inputted info
+                var residentialCustomer = Residential(isSenior, name, phone, address, sqf)
+                // uses Residential's function displayInfo() to show all information and calculated weekly cost
+                residentialCustomer.displayInfo()
+                break
             }
-            // create class instance using inputted info
-            var residentialCustomer = Residential(isSenior, name, phone, address, sqf)
-            // uses Residential's function displayInfo() to show all information and calculated weekly cost
-            residentialCustomer.displayInfo()
+        } catch (e: NumberFormatException) {
+            println("Error: Entry must be a number!")
+        } catch (e: Exception) {
+            println("Error: Unknown Error occurred")
         }
-    } catch (e: Exception) {
-        println("An error occurred!")
-    } finally {
-        println("Please redo entry.")
     }
-
 }
 /* business gets info from user about a commercial customer, creates a variable of class Commercial with inputted
 info then uses Commercial's displayIt function to output the data
 */
 fun business() {
-    try {
-        var totalSqFt = 0.00
-        // getting customer info
-        println("Enter business name:")
-        var businessName = readln()!!.toString()
-        println("Enter business address:")
-        var businessAddress = readln()!!.toString()
-        println("Enter contact name:")
-        var contactName = readln()!!.toString()
-        println("Enter contact phone number:")
-        var contactNumber = readln()!!.toString()
-        println("How many properties?")
-        var numProperties = readln()!!.toInt()
-        // if there is more than 1 property total up the square footage
-        if (numProperties > 1){
-            for (item in 1..numProperties) {
-                println("Enter square footage of property $item")
-                totalSqFt += readln()!!.toDouble()
+    while(true) {
+        try {
+            var totalSqFt = 0.00
+            // getting customer info
+            println("Enter business name:")
+            var businessName = readln()!!.toString()
+            println("Enter business address:")
+            var businessAddress = readln()!!.toString()
+            println("Enter contact name:")
+            var contactName = readln()!!.toString()
+            println("Enter contact phone number:")
+            var contactNumber = readln()!!.toString()
+            println("How many properties?")
+            var numProperties = readln()!!.toInt()
+            // if there is more than 1 property total up the square footage
+            if (numProperties > 1) {
+                for (item in 1..numProperties) {
+                    println("Enter square footage of property $item")
+                    totalSqFt += readln()!!.toDouble()
+                }
             }
+            // only 1 property just get the square footage from user
+            else {
+                println("Enter square footage of property:")
+                totalSqFt = readln()!!.toDouble()
+            }
+            var businessCustomer =
+                Commercial(businessName, numProperties, contactName, contactNumber, businessAddress, totalSqFt)
+            businessCustomer.displayInfo()
+            break
+        } catch (e: NumberFormatException) {
+            println("Error: Entry must be a number!")
+        } catch (e: Exception) {
+            println("Error: Unknown Error occurred")
         }
-        // only 1 property just get the square footage from user
-        else{
-            println("Enter square footage of property:")
-            totalSqFt = readln()!!.toDouble()
-        }
-        var businessCustomer = Commercial(businessName, numProperties , contactName, contactNumber, businessAddress, totalSqFt)
-        businessCustomer.displayInfo()
-    } catch (e: Exception) {
-        println("An error occurred!")
-    } finally {
-        println("Please redo entry.")
     }
 }
